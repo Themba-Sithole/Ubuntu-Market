@@ -188,8 +188,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const headerShouldStayVisible = () => {
     if (document.body.classList.contains('filter-drawer-open')) return true;
-    const navActionsEl = document.getElementById('navActions');
-    if (navActionsEl?.classList.contains('mobile-open')) return true;
+    const mobileNavDrawerEl = document.getElementById('mobileNavDrawer');
+    if (mobileNavDrawerEl?.classList.contains('open')) return true;
     const accountMenuEl = document.getElementById('accountMenu');
     if (accountMenuEl?.classList.contains('open')) return true;
     return false;
@@ -365,14 +365,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // mobile hamburger menu
+  // mobile hamburger menu (separate drawer — not the header icon row)
   const mobileNavToggle = document.getElementById('mobileNavToggle');
   const mobileNavBackdrop = document.getElementById('mobileNavBackdrop');
-  const navActions = document.getElementById('navActions');
+  const mobileNavDrawer = document.getElementById('mobileNavDrawer');
 
   const closeMobileNav = () => {
-    navActions?.classList.remove('mobile-open');
+    mobileNavDrawer?.classList.remove('open');
+    mobileNavDrawer?.setAttribute('aria-hidden', 'true');
     mobileNavBackdrop?.classList.remove('open');
+    mobileNavBackdrop?.setAttribute('aria-hidden', 'true');
     mobileNavToggle?.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
   };
@@ -380,16 +382,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const openMobileNav = () => {
     closeAccountMenu();
     revealSiteHeader();
-    navActions?.classList.add('mobile-open');
+    mobileNavDrawer?.classList.add('open');
+    mobileNavDrawer?.setAttribute('aria-hidden', 'false');
     mobileNavBackdrop?.classList.add('open');
+    mobileNavBackdrop?.setAttribute('aria-hidden', 'false');
     mobileNavToggle?.setAttribute('aria-expanded', 'true');
-    if (window.innerWidth <= 720) {
+    if (window.innerWidth <= 960) {
       document.body.style.overflow = 'hidden';
     }
   };
 
   mobileNavToggle?.addEventListener('click', () => {
-    if (navActions?.classList.contains('mobile-open')) {
+    if (mobileNavDrawer?.classList.contains('open')) {
       closeMobileNav();
     } else {
       openMobileNav();
@@ -399,6 +403,25 @@ document.addEventListener('DOMContentLoaded', () => {
   mobileNavBackdrop?.addEventListener('click', () => {
     closeMobileNav();
     closeAccountMenu();
+  });
+
+  mobileNavDrawer?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      closeMobileNav();
+    });
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && mobileNavDrawer?.classList.contains('open')) {
+      closeMobileNav();
+      mobileNavToggle?.focus();
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 960) {
+      closeMobileNav();
+    }
   });
 
   const brandsViewport = document.getElementById('brandsViewport');

@@ -106,41 +106,43 @@ $isSeller = isLoggedIn() && in_array(userRole(), ['seller', 'admin'], true);
           <?php endif; ?>
         </a>
 
-        <?php if (isLoggedIn()): ?>
-          <div class="account-menu" id="accountMenu">
-            <button
-              type="button"
-              class="account-menu-trigger"
-              id="accountMenuTrigger"
-              aria-expanded="false"
-              aria-haspopup="true"
-              aria-controls="accountDropdown"
-            >
-              <span class="account-avatar"><?= strtoupper(substr(current_user_name(), 0, 1)) ?></span>
-              <span class="account-trigger-text"><?= htmlspecialchars(current_user_name()) ?></span>
-              <span class="account-chevron" aria-hidden="true">▾</span>
-            </button>
-            <div class="account-dropdown" id="accountDropdown" role="menu" aria-labelledby="accountMenuTrigger" hidden>
-              <div class="account-dropdown-head">
-                <strong><?= htmlspecialchars(current_user_name()) ?></strong>
-                <span><?= htmlspecialchars(ucfirst(userRole() ?? 'member')) ?></span>
+        <div class="nav-actions-desktop">
+          <?php if (isLoggedIn()): ?>
+            <div class="account-menu" id="accountMenu">
+              <button
+                type="button"
+                class="account-menu-trigger"
+                id="accountMenuTrigger"
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-controls="accountDropdown"
+              >
+                <span class="account-avatar"><?= strtoupper(substr(current_user_name(), 0, 1)) ?></span>
+                <span class="account-trigger-text"><?= htmlspecialchars(current_user_name()) ?></span>
+                <span class="account-chevron" aria-hidden="true">▾</span>
+              </button>
+              <div class="account-dropdown" id="accountDropdown" role="menu" aria-labelledby="accountMenuTrigger" hidden>
+                <div class="account-dropdown-head">
+                  <strong><?= htmlspecialchars(current_user_name()) ?></strong>
+                  <span><?= htmlspecialchars(ucfirst(userRole() ?? 'member')) ?></span>
+                </div>
+                <a href="<?= site_url('pages/users.php') ?>" role="menuitem">My Account</a>
+                <a href="<?= site_url('pages/orders.php') ?>" role="menuitem">My Orders</a>
+                <?php if ($isSeller): ?>
+                  <a href="<?= site_url('pages/seller-dashboard.php') ?>" role="menuitem">Seller Hub</a>
+                <?php endif; ?>
+                <?php if ($isAdmin): ?>
+                  <a href="<?= site_url('pages/admin.php') ?>" class="account-dropdown-admin" role="menuitem">Admin Dashboard</a>
+                <?php endif; ?>
+                <a href="<?= site_url('auth/logout.php') ?>" class="account-dropdown-logout" role="menuitem">Sign out</a>
               </div>
-              <a href="<?= site_url('pages/users.php') ?>" role="menuitem">My Account</a>
-              <a href="<?= site_url('pages/orders.php') ?>" role="menuitem">My Orders</a>
-              <?php if ($isSeller): ?>
-                <a href="<?= site_url('pages/seller-dashboard.php') ?>" role="menuitem">Seller Hub</a>
-              <?php endif; ?>
-              <?php if ($isAdmin): ?>
-                <a href="<?= site_url('pages/admin.php') ?>" class="account-dropdown-admin" role="menuitem">Admin Dashboard</a>
-              <?php endif; ?>
-              <a href="<?= site_url('auth/logout.php') ?>" class="account-dropdown-logout" role="menuitem">Sign out</a>
             </div>
-          </div>
-        <?php else: ?>
-          <a href="<?= site_url('pages/login-page.php') ?>" class="nav-text-btn">Sign in</a>
-        <?php endif; ?>
+          <?php else: ?>
+            <a href="<?= site_url('pages/login-page.php') ?>" class="nav-text-btn">Sign in</a>
+          <?php endif; ?>
 
-        <a href="<?= site_url('pages/add-item.php') ?>" class="sell-btn">Sell</a>
+          <a href="<?= site_url('pages/add-item.php') ?>" class="sell-btn">Sell</a>
+        </div>
       </div>
     </div>
   </div>
@@ -181,4 +183,39 @@ $isSeller = isLoggedIn() && in_array(userRole(), ['seller', 'admin'], true);
 </header>
 
 <div class="mobile-nav-backdrop" id="mobileNavBackdrop" aria-hidden="true"></div>
+
+<nav class="mobile-nav-drawer" id="mobileNavDrawer" aria-label="Menu" aria-hidden="true">
+  <a href="<?= site_url('pages/favorites.php') ?>" class="mobile-drawer-link">
+    <img src="<?= asset_url('images/favourites.png') ?>" alt="" width="22" height="22">
+    <span>Wishlist</span>
+  </a>
+  <a href="<?= site_url('pages/cart.php') ?>" class="mobile-drawer-link">
+    <img src="<?= asset_url('images/cart.png') ?>" alt="" width="22" height="22">
+    <span>Cart<?php if ($cartTotal > 0): ?> (<?= (int) $cartTotal ?>)<?php endif; ?></span>
+  </a>
+
+  <?php if (isLoggedIn()): ?>
+    <div class="mobile-drawer-user">
+      <span class="account-avatar"><?= strtoupper(substr(current_user_name(), 0, 1)) ?></span>
+      <div>
+        <strong><?= htmlspecialchars(current_user_name()) ?></strong>
+        <span><?= htmlspecialchars(ucfirst(userRole() ?? 'member')) ?></span>
+      </div>
+    </div>
+    <a href="<?= site_url('pages/users.php') ?>" class="mobile-drawer-link">My Account</a>
+    <a href="<?= site_url('pages/orders.php') ?>" class="mobile-drawer-link">My Orders</a>
+    <?php if ($isSeller): ?>
+      <a href="<?= site_url('pages/seller-dashboard.php') ?>" class="mobile-drawer-link">Seller Hub</a>
+    <?php endif; ?>
+    <?php if ($isAdmin): ?>
+      <a href="<?= site_url('pages/admin.php') ?>" class="mobile-drawer-link mobile-drawer-link--admin">Admin Dashboard</a>
+    <?php endif; ?>
+    <a href="<?= site_url('auth/logout.php') ?>" class="mobile-drawer-link mobile-drawer-link--logout">Sign out</a>
+  <?php else: ?>
+    <a href="<?= site_url('pages/login-page.php') ?>" class="mobile-drawer-link">Sign in</a>
+    <a href="<?= site_url('pages/register-page.php') ?>" class="mobile-drawer-link">Register</a>
+  <?php endif; ?>
+
+  <a href="<?= site_url('pages/add-item.php') ?>" class="mobile-drawer-sell sell-btn">Sell</a>
+</nav>
 

@@ -475,6 +475,29 @@ video {
   margin-top: 20px;
 }
 
+/* stop legacy style.css from wrapping header actions on tablets/phones */
+@media (max-width: 960px) {
+  .site-header .nav-actions {
+    flex-wrap: nowrap !important;
+    gap: 2px !important;
+  }
+
+  .site-header .nav-actions-desktop {
+    display: none !important;
+  }
+
+  .site-header .navbar {
+    display: block !important;
+    flex-direction: unset !important;
+  }
+}
+
+@media (min-width: 961px) {
+  .mobile-nav-drawer {
+    display: none !important;
+  }
+}
+
 /* —— Mobile header (override legacy style.css) —— */
 @media (max-width: 960px) {
   .site-header .topbar {
@@ -735,4 +758,17 @@ body:not(.portal-app) .navbar:not(.site-header *) {
     min-width: 40px !important;
     min-height: 40px !important;
   }
+}
+
+/* hero: beat legacy min-heights and global img { height: auto } */
+.home-page .hero-carousel,
+.home-page .hero-carousel-wrap,
+.home-page .hero-carousel-frame {
+  min-height: 0 !important;
+}
+
+.home-page .hero-slide-link img {
+  height: 100% !important;
+  max-height: none !important;
+  object-fit: cover !important;
 }
