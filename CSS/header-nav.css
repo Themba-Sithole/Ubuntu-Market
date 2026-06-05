@@ -674,35 +674,45 @@
     justify-content: center;
   }
 
+  /* keep search on one row so the header doesn't take half the screen */
   .site-header .search-bar {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) 52px;
-    grid-template-rows: 44px 40px;
-    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
     align-items: stretch !important;
+    min-height: 44px !important;
+    height: 44px !important;
+    max-height: 44px !important;
   }
 
   .site-header .search-bar input[type="search"] {
-    grid-column: 1 / -1;
-    grid-row: 1;
-    min-height: 44px;
-    border-bottom: 1px solid var(--hdr-border) !important;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0 !important;
+    border-bottom: none !important;
+    padding: 0 12px !important;
+    font-size: 13px !important;
   }
 
   .site-header .search-category {
-    grid-column: 1;
-    grid-row: 2;
-    min-width: 0 !important;
+    flex: 0 0 auto;
+    min-width: 96px !important;
+    max-width: 112px !important;
     width: auto !important;
-    border-left: none !important;
-    border-top: none !important;
+    border-left: 1px solid var(--hdr-border) !important;
+    padding: 0 8px !important;
+  }
+
+  .site-header .search-category select {
+    font-size: 12px !important;
+    max-width: 100%;
   }
 
   .site-header .search-submit {
-    grid-column: 2;
-    grid-row: 2;
-    width: 52px !important;
-    min-height: 40px !important;
+    flex: 0 0 44px;
+    width: 44px !important;
+    min-width: 44px !important;
+    min-height: 0 !important;
+    height: auto !important;
   }
 }
 
@@ -754,8 +764,11 @@
     z-index: 1001;
   }
 
-  .site-header .nav-actions:not(.mobile-open) .sell-btn {
-    display: none;
+  /* only show quick icons in the top bar — rest lives in the menu drawer */
+  .site-header .nav-actions:not(.mobile-open) .sell-btn,
+  .site-header .nav-actions:not(.mobile-open) .nav-text-btn,
+  .site-header .nav-actions:not(.mobile-open) .account-menu {
+    display: none !important;
   }
 
   .site-header .nav-actions.mobile-open .nav-icon-btn {
@@ -773,6 +786,22 @@
     font-size: 14px !important;
   }
 
+  .site-header .nav-actions.mobile-open .nav-text-btn {
+    display: inline-flex !important;
+    width: 100%;
+    justify-content: center;
+    padding: 12px 14px;
+    border: 1px solid var(--hdr-border);
+    border-radius: 10px;
+  }
+
+  .site-header .nav-actions.mobile-open .sell-btn {
+    display: inline-flex !important;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
   /* Dropdown stacks inside mobile drawer */
   .site-header .nav-actions.mobile-open .account-menu {
     width: 100%;
@@ -788,5 +817,76 @@
     width: 100%;
     margin-top: 8px;
     box-shadow: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .site-header .logo-img,
+  .site-header .logo img {
+    height: 36px !important;
+    max-height: 36px !important;
+  }
+
+  .site-header .navbar-inner {
+    gap: 8px !important;
+    padding: 8px 12px !important;
+  }
+
+  .site-header .nav-actions:not(.mobile-open) {
+    gap: 2px !important;
+  }
+
+  .site-header .nav-icon-btn {
+    min-width: 40px !important;
+    width: 40px !important;
+    height: 40px !important;
+    padding: 6px !important;
+  }
+
+  .site-header .mobile-nav-toggle {
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+  }
+
+  .site-header .search-category {
+    min-width: 84px !important;
+    max-width: 96px !important;
+  }
+
+  .site-header .promo-strip {
+    display: none;
+  }
+}
+
+@media (max-width: 960px) {
+  .site-header .category-bar {
+    position: relative;
+  }
+
+  .site-header .category-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 32px;
+    background: linear-gradient(to left, #f8fafc 30%, transparent);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .site-header .category-bar-inner {
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+
+  .site-header .category-bar-inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .site-header .category-bar .category-pill,
+  .site-header .category-bar a {
+    scroll-snap-align: start;
   }
 }

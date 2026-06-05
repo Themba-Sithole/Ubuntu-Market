@@ -516,12 +516,15 @@ video {
   }
 
   .site-header .search-bar {
-    grid-template-rows: 42px 38px !important;
-    border-radius: 12px !important;
+    border-radius: 10px !important;
+  }
+
+  .site-header .search-bar input[type="search"] {
+    font-size: 13px !important;
   }
 
   .site-header .search-category select {
-    font-size: 12px !important;
+    font-size: 11px !important;
   }
 }
 
@@ -706,11 +709,13 @@ body:not(.portal-app) .navbar:not(.site-header *) {
   display: none !important;
 }
 
-.site-header .logo-img,
-.site-header .logo img {
-  height: 52px !important;
-  max-height: 52px !important;
-  width: auto !important;
+@media (min-width: 961px) {
+  .site-header .logo-img,
+  .site-header .logo img {
+    height: 52px !important;
+    max-height: 52px !important;
+    width: auto !important;
+  }
 }
 
 /* Touch targets */
