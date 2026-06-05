@@ -1,0 +1,15 @@
+includes/db.local.php
+
+# Deployment artifacts
+deploy.zip
+*.zip
+ubuntu_market.sql
+
+# OS / editor
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/
+
+# Logs
+*.log

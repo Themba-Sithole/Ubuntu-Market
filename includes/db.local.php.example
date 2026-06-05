@@ -1,0 +1,9 @@
+<?php
+/**
+ * Copy this to db.local.php for local XAMPP development.
+ * That file stays on my machine and is not uploaded with the project.
+ */
+$host     = 'localhost';
+$dbname   = 'ubuntu_market';
+$username = 'root';
+$password = '';
